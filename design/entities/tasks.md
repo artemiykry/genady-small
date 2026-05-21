@@ -1,54 +1,48 @@
-# Tasks
+# Task
 
-A task is a unit of intent — something you want done, by you or someone else.
+A unit of intent — something you want done, by you or someone else.
 
-## Shape
+## Identity
+- `id` — UUID, opaque, stable across renames.
 
-Each task has:
-- **Title** — short, the thing
-- **Body** — optional notes, context, links
-- **Status** — `todo`, `doing`, `done`, `blocked`, `cancelled`
-- **Priority** — none / low / medium / high / urgent
-- **Dates** — start, due, scheduled (when you plan to work on it)
-- **Assignee** — a [person](people.md), often yourself
-- **Links** — to docs, notes, meetings, incidents, other tasks, people
+## Attributes
+- **id** `UUID`
+- **title** `string`
+- **body** `markdown?`
+- **status** `enum(todo, doing, done, blocked, cancelled)`
+- **priority** `enum(none, low, medium, high, urgent)`
+- **start_date** `date?`
+- **due_date** `date?`
+- **scheduled_at** `datetime?`
+- **assignee** `→ Person?`
+- **parent** `→ Task?`
+- **recurrence** `RecurrenceRule?` — daily, weekly, or custom
+- **created_at** `timestamp`
+- **updated_at** `timestamp`
+- **completed_at** `timestamp?`
+- **archived** `bool`
 
-## Nesting
+## Invariants
+- `title` is non-empty.
+- A task cannot be its own ancestor (nesting is acyclic).
+- `completed_at` is set iff `status` is `done`.
+- `start_date` ≤ `due_date` when both are set.
+- Completing a recurring instance generates the next instance.
 
-Tasks nest arbitrarily deep. A subtask is just a task whose parent is another task. A task with subtasks can:
-- Roll up progress (e.g. "3 of 7 done")
-- Be completed independently of its children (with a warning)
+## Operations
+- **create** — from anywhere (global hotkey, agent, inside a note, from a calendar event).
+- **update** — edit any attribute.
+- **transition** — change `status`.
+- **nest / unnest** — set or clear `parent`.
+- **assign** — set `assignee`.
+- **snooze / defer** — push `scheduled_at` forward.
+- **archive** — soft-delete; recoverable.
+- **convert** — promote into a [document](documents.md).
+- **bulk_edit** — apply updates across a filtered set.
 
-There is no distinction between "project," "epic," "story," "task." All are tasks. Depth is up to the user.
-
-## Recurrence
-
-A task can recur on a schedule (daily, weekly, custom). Completing the current instance generates the next one.
-
-## Views
-
-Two ways to look at tasks. Both share the same filter (`person:@alex AND status:todo` works in either) and switch with a keystroke.
-
-### Outline-table
-
-A tree with columns. Tasks nest visually with expand / collapse; each row shows the fields you care about — status, priority, due date, assignee. Sort, filter, group, bulk-edit. The default. Equally good for inbox triage, daily planning, and breaking down a project.
-
-### Gantt
-
-A horizontal timeline. Each task is a bar from start to due; nesting collapses into parent bars; dependencies show as arrows. For seeing slack, conflicts, and shape over weeks.
-
-### Saved views
-
-A view is a filter + a shape (outline-table or gantt) + visible columns + grouping + sort. Name one and pin it to the sidebar — "Today," "This Week," "Blocked," "Waiting on Alex" are all just saved views.
-
-## What you can do
-
-- Create a task from anywhere — global hotkey, agent, inside a note, from a calendar event.
-- Drag to reorder, indent, outdent.
-- Convert: a note becomes a task; a task becomes a doc; a meeting action item becomes a task.
-- Snooze, defer, archive.
-- Bulk edit across a view.
-
-## What lives elsewhere
-
-- *Who* a task belongs to → [people](people.md)
+## Relationships
+- **→ Person** (0..1, `assignee`)
+- **→ Task** (0..1, `parent`)
+- **← Task** (N, subtasks — derived from `parent`)
+- **→ any Entity** (N, via links)
+- **← any Entity** (N, backlinks)

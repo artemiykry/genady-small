@@ -19,7 +19,7 @@ A single-user desktop app that unifies the artifacts of knowledge work — tasks
 - [Notes](entities/notes.md) — quick, lightweight capture
 - [Documents](entities/documents.md) — long-form, durable knowledge
 - [Files](entities/files.md) — tree, viewer, and search over a directory on disk
-- [People](entities/people.md) — colleagues, with overview, one-on-ones, and plans
+- [People](entities/people.md) — colleagues, with overview, one-on-ones, and brief
 - [Teams](entities/teams.md) — hierarchical groups of people
 - [Agent](agent/overview.md) — chat that can act
 

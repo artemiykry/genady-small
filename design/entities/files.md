@@ -1,25 +1,31 @@
-# Files
+# File
 
-A configured directory on disk, surfaced inside the app as a tree and a viewer. The files themselves stay on disk — the app doesn't copy or own them.
+A regular file on disk inside the configured directory. The app surfaces it; the filesystem owns it.
 
-## What you get
+## Identity
+- `path` — absolute path within the configured directory.
 
-- **Tree** — the directory in the sidebar, expand / collapse, mirrors the filesystem as-is
-- **Viewer** — inline preview for the common types: PDFs, images, audio, video, text, code, markdown
-- **Search** — full-text search across file contents, alongside the rest of your workspace
-- **Open externally** — hand off to the native app for anything the viewer doesn't render
+## Attributes
+- **path** `string`
+- **name** `string` — derived from `path`
+- **type** `mime` — derived from extension or content
+- **size** `bytes`
+- **modified_at** `timestamp` — from the filesystem
 
-## The agent and files
+## Invariants
+- `path` is unique within the configured directory.
+- The file exists on disk; the app does not store a copy.
+- File contents are owned by the filesystem; external edits are reflected on next read.
 
-The [agent](../agent/overview.md) can read, edit, create, move, and delete files in the directory. File operations are shown like any other action — visible, confirmable, reversible. Files are just one more surface the agent can work on.
+## Operations
+- **read** — load content for preview or indexing.
+- **edit** — agent-driven; writes to disk.
+- **create** — agent-driven; writes to disk.
+- **move / rename** — updates `path`.
+- **delete** — removes from disk.
+- **preview** — inline viewer for common types (PDF, image, audio, video, text, code, markdown).
+- **search** — full-text across contents.
+- **open_externally** — hand off to the native app.
 
-## What it is not
-
-- Not an authored entity — a file carries no metadata or outgoing links of its own; it can be linked to from anywhere, and backlinks accumulate like for any other reference
-- Not a storage layer — the app doesn't copy, own, or sync; what's on disk is what you see
-- Not connected — if you want structural links between pieces of writing, use a [document](documents.md), not a file
-
-## What lives elsewhere
-
-- Long-form writing with links and backlinks → [documents](documents.md)
-- Meeting recordings — drop them in the directory; reference the filename in the [meeting](meetings.md) note if you want
+## Relationships
+- **← any Entity** (N, backlinks when referenced by `path`)

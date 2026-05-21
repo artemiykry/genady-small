@@ -1,23 +1,30 @@
-# Documents
+# Document
 
-Documents are the long-form, durable end of the writing surface. They're where ideas, plans, and reference material live for the long haul.
+A persistent, structured, authored piece of writing — referenced by other entities far more than the reverse.
 
-## Character
+## Identity
+- `id` — UUID.
 
-- **Persistent** — meant to be revisited, not triaged away
-- **Structured** — headings, sections, embeds, tables
-- **Authored** — you sit down to write a document; you scribble a note
-- **Referenced** — other entities link to documents far more than the reverse
+## Attributes
+- **id** `UUID`
+- **title** `string`
+- **body** `markdown`
+- **created_at** `timestamp`
+- **updated_at** `timestamp`
+- **versions** `Version[]` — append-only edit history; each `{timestamp, author, body}`
 
-## What's in one
+## Invariants
+- `title` is non-empty.
+- `versions` is append-only.
 
-- Rich text / markdown body
-- Headings, lists, tables, code, quotes, callouts
-- Embeds: link to (or inline) a task, a meeting note, an image, another document
-- Mentions and inline links to other entities
-- Backlinks at the bottom: every task, meeting, note, or person referencing this doc
-- Edit history: see what changed and when, restore prior versions
+## Operations
+- **create** — fresh document.
+- **edit** — append a new version.
+- **restore_version** — promote a prior version to current.
+- **embed** — link to or inline another entity.
+- **mention** — `@person` or `[[entity]]`.
+- **promote_from_note** — convert an existing [note](notes.md); content moves, backlinks update.
 
-## When a note becomes a document
-
-When a note outgrows the inbox — when you'll come back to it, expand it, share it with [the agent](../agent/overview.md) repeatedly — promote it. The content moves; backlinks update.
+## Relationships
+- **→ any Entity** (N, via embeds, mentions, links)
+- **← any Entity** (N, backlinks)

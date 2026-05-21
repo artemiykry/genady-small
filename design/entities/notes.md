@@ -1,27 +1,29 @@
-# Notes
+# Note
 
-Notes are the lightweight, low-friction surface. If you don't know where something belongs, it belongs here.
+A lightweight, low-friction capture artifact — the default home for thoughts whose place is not yet decided.
 
-## Character
+## Identity
+- `id` — UUID.
 
-- **Short by default** — a few sentences to a few paragraphs. If a note grows long, it wants to become a [document](documents.md).
-- **Cheap to make** — a global hotkey opens a blank note anywhere, anytime. No required fields.
-- **Easy to lose, easy to find** — full-text search across all notes is always one shortcut away.
+## Attributes
+- **id** `UUID`
+- **title** `string?` — derived from first line if blank
+- **body** `markdown`
+- **created_at** `timestamp`
+- **updated_at** `timestamp`
+- **archived** `bool`
 
-## Flow
+## Invariants
+- `body` is non-empty OR `title` is non-empty.
+- An archived note is read-only.
 
-- **Inbox** — fresh notes land here unsorted. You triage when you feel like it.
-- **Promote** — a note can become a task, a doc, or be attached to a meeting, person, or project task.
-- **Discard** — archiving is a normal outcome. Notes are allowed to die.
+## Operations
+- **create** — opens blank in editor; no required fields.
+- **edit** — update `title` / `body`.
+- **promote** — convert to [task](tasks.md), [document](documents.md), or attach to a [meeting](meetings.md) / [person](people.md); preserves backlinks.
+- **archive / restore** — soft-delete and recover.
+- **mention** — embed `@person` or `[[entity]]`.
 
-## What's in one
-
-- Free-form text with markdown
-- Mentions (`@person`, `[[entity]]`)
-- Optional title (auto-derived from first line if blank)
-
-## What lives elsewhere
-
-- Long-form, persistent writing → [documents](documents.md)
-- Meeting-specific notes → [meetings](meetings.md)
-- Capturing a *thing to do* rather than a *thought* → [tasks](tasks.md)
+## Relationships
+- **→ any Entity** (N, via mentions and links)
+- **← any Entity** (N, backlinks)
