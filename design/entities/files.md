@@ -1,6 +1,6 @@
 # Files
 
-A configured directory on disk, surfaced inside the app as a tree and a viewer. The files are just regular files — they live in the filesystem, not in the entity graph.
+A configured directory on disk, surfaced inside the app as a tree and a viewer. The files themselves stay on disk — the app doesn't copy or own them.
 
 ## What you get
 
@@ -15,7 +15,7 @@ The [agent](../agent/overview.md) can read, edit, create, move, and delete files
 
 ## What it is not
 
-- Not an entity in the graph — files have no links or backlinks; they're just files
+- Not an authored entity — a file carries no metadata or outgoing links of its own; it can be linked to from anywhere, and backlinks accumulate like for any other reference
 - Not a storage layer — the app doesn't copy, own, or sync; what's on disk is what you see
 - Not connected — if you want structural links between pieces of writing, use a [document](documents.md), not a file
 

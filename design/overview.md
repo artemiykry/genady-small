@@ -27,4 +27,4 @@ A single-user desktop app that unifies the artifacts of knowledge work — tasks
 
 - Not a team collaboration tool. Single user.
 - Not a wiki, not a project manager, not an email client — though it touches the same problems.
-- Not cloud-first. The app works offline; sync is selective.
+- Not cloud-first. The app works offline.

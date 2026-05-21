@@ -6,9 +6,9 @@ A meeting is a note anchored to a calendar event. It's where you put what was di
 
 - **Before** — the meeting note auto-exists for any upcoming event. You can open it and pre-fill agenda items.
 - **During** — quick capture: bullets, decisions, action items. Mention [people](people.md) with `@`, link other entities with `[[ ]]`.
-- **After** — action items become [tasks](tasks.md) with one keystroke. Decisions are searchable forever.
+- **After** — decisions are searchable forever.
 
-## Structure (suggested, not enforced)
+## Structure
 
 - **Attendees** — pulled from the event, linked to person entities
 - **Agenda** — what we want to cover

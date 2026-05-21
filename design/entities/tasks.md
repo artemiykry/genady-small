@@ -51,5 +51,4 @@ A view is a filter + a shape (outline-table or gantt) + visible columns + groupi
 
 ## What lives elsewhere
 
-- *When* tasks appear in time → [calendar](calendar.md)
 - *Who* a task belongs to → [people](people.md)

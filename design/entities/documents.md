@@ -15,17 +15,8 @@ Documents are the long-form, durable end of the writing surface. They're where i
 - Headings, lists, tables, code, quotes, callouts
 - Embeds: link to (or inline) a task, a meeting note, an image, another document
 - Mentions and inline links to other entities
-- Optional cover, icon, summary
-
-## Linking
-
-- A document can be linked from anywhere. Backlinks are shown at the bottom: every task, meeting, note, or person referencing this doc.
-- Internal links between documents form a wiki-like graph.
-
-## Versioning
-
-- Edit history is kept. You can see what changed and when, and restore prior versions.
-- No formal "publish" step — documents are always live to you.
+- Backlinks at the bottom: every task, meeting, note, or person referencing this doc
+- Edit history: see what changed and when, restore prior versions
 
 ## When a note becomes a document
 
